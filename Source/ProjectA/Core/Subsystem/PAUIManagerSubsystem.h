@@ -14,6 +14,7 @@ class PROJECTA_API UPAUIManagerSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 public:
+	void LoadAssetStart();
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 	

@@ -16,7 +16,7 @@ public class ProjectA : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule", "NavigationSystem"
+			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule", "NavigationSystem","Slate","SlateCore"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

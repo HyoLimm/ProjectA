@@ -3,6 +3,7 @@
 
 #include "PAGameInstance.h"
 
+#include "PAGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 UPAGameInstance* UPAGameInstance::GetGameInstance()
@@ -16,14 +17,14 @@ UPAGameInstance* UPAGameInstance::GetGameInstance()
 	return Cast<UPAGameInstance>(GWorld->GetGameInstance());
 }
 
-void UPAGameInstance::SetGameMode(APAGameModeBase* InGameMode)
-{
-	CurrentGameMode = InGameMode;
-}
-
 TObjectPtr<APAGameModeBase> UPAGameInstance::GetGameMode() const
 {
-	return CurrentGameMode;
+	if(GetWorld() == nullptr)
+	{
+		return nullptr;		
+	}
+
+	return GetWorld()->GetAuthGameMode<APAGameModeBase>();
 }
 
 void UPAGameInstance::Init()
@@ -34,5 +35,6 @@ void UPAGameInstance::Init()
 	{
 		GetWorld()->SetGameInstance(this);
 	}
+	
 }
 

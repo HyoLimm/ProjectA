@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "Engine/AssetManager.h"
 #include "PAAssetManager.generated.h"
+
 #define UE_API PROJECTA_API
 
-
-struct FPABundles
-{
-	inline static const FName UI = ("UI");
-};
+//
+// struct FPABundles
+// {
+// 	inline 
+// };
 
 UCLASS(MinimalAPI, Config = Game)
 class UPAAssetManager : public UAssetManager
@@ -19,7 +20,7 @@ class UPAAssetManager : public UAssetManager
 	GENERATED_BODY()
 public:
 	static UPAAssetManager& Get();
-	
+	static UE_API const FName UI;
 	template<typename AssetType>
 	static AssetType* GetAsset(const TSoftObjectPtr<AssetType>& AssetPointer, bool bKeepInMemory = true);
 

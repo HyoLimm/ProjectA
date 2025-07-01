@@ -9,6 +9,7 @@
 #include "PAPool.h"
 #include "Character/PAEnemyCharacter.h"
 #include "Controller/PAPlayerController.h"
+#include "Subsystem/PAUIManagerSubsystem.h"
 #include "Weapons/PAPlayerBullet.h"
 
 class UPAObjectPoolSubsystem;
@@ -31,9 +32,9 @@ void APAGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	UPAGameInstance* GameInstance = UPAGameInstance::GetGameInstance();
-	if (IsValid(GameInstance))
+	if (IsValid(GameInstance) == false)
 	{
-		GameInstance->SetGameMode(this);
+		return;
 	}
 
 	UWorld* World = GameInstance->GetWorld();
@@ -50,6 +51,13 @@ void APAGameModeBase::BeginPlay()
 	if(World)
 	{
 		World->GetTimerManager().SetTimer(EnemySpawnTimerHandle, this, &ThisClass::SpawnRandomEnemy,0.5f, true);
+	}
+	
+	
+	UPAUIManagerSubsystem* UIManagerSubSystem = GameInstance->GetSubsystem<UPAUIManagerSubsystem>();
+	if(IsValid(UIManagerSubSystem))
+	{
+		UIManagerSubSystem->LoadAssetStart();
 	}
 }
 

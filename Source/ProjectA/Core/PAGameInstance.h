@@ -15,7 +15,7 @@ class PROJECTA_API UPAGameInstance : public UGameInstance
 public:
 	static UPAGameInstance* GetGameInstance();
 
-	void SetGameMode(APAGameModeBase* InGameMode);
+
 
 	TObjectPtr<APAGameModeBase> GetGameMode() const;
 	

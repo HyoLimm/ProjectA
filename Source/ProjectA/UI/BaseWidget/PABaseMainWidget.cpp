@@ -3,3 +3,7 @@
 
 #include "UI/BaseWidget/PABaseMainWidget.h"
 
+UPABaseMainWidget::UPABaseMainWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+}

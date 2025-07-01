@@ -168,7 +168,7 @@ public:
 		}
 
 		UObject* Selected = FindValidObjectFromPool(AvailableObjects);
-		if (Selected == nullptr)
+		if (Selected == nullptr || Selected->IsValidLowLevel() == false)
 		{
 			return nullptr;
 		}

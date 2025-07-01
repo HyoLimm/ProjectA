@@ -11,6 +11,9 @@ static FAutoConsoleCommand CVarDumpLoadedAssets(
 	FConsoleCommandDelegate::CreateStatic(UPAAssetManager::DumpLoadedAssets)
 );
 
+const FName UPAAssetManager::UI(TEXT("UI"));
+
+
 UPAAssetManager& UPAAssetManager::Get()
 {
 	check(GEngine);

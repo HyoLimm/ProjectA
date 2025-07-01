@@ -9,6 +9,7 @@
 class UPAPool;
 class APAEnemyCharacter;
 class APAPlayerBullet;
+class UPAUIDataAsset;
 
 UCLASS()
 class PROJECTA_API APAGameModeBase : public AGameModeBase
@@ -25,12 +26,15 @@ public:
 
 	void SpawnRandomEnemy();
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="PA")
 	TSubclassOf<APAEnemyCharacter> EnemyClass;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="PA")
 	TSubclassOf<APAPlayerBullet> BulletClass;
-
+	
+	UPROPERTY(EditAnywhere, Category="PA | DataAsset")
+	TObjectPtr<const UPAUIDataAsset> MainWidgetDataAsset;
+	
 protected:
 	
 	FTimerHandle EnemySpawnTimerHandle;

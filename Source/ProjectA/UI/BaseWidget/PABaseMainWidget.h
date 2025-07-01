@@ -13,5 +13,6 @@ UCLASS()
 class PROJECTA_API UPABaseMainWidget : public UPAUserWidget
 {
 	GENERATED_BODY()
-	
+public :
+	UPABaseMainWidget(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 };
