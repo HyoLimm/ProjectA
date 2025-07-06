@@ -16,6 +16,10 @@ APABaseCharacter::APABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	HealthComponent->OnDeathFinished.AddDynamic(this, &ThisClass::OnDeathFinished);
 }
 
+void APABaseCharacter::InitCharacter()
+{
+}
+
 
 void APABaseCharacter::BeginPlay()
 {

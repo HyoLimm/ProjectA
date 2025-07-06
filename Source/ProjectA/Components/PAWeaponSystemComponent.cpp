@@ -32,6 +32,5 @@ void UPAWeaponSystemComponent::FireBullet()
 			Bullet->SpawnFrom(GetOwner());
 			Bullet->Fire();
 		}
-
 	}
 }

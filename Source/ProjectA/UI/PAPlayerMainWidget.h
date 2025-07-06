@@ -22,4 +22,11 @@ protected:
 protected:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	TObjectPtr<UTextBlock> TT_CurrentScore;
+
+
+	UFUNCTION()
+	void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn);
+
+	UFUNCTION()
+	void OnUpdateScore(uint64 InUpdateScore);
 };

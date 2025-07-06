@@ -17,17 +17,18 @@ class PROJECTA_API APAPlayerBullet : public APABaseBulletActor, public IPAPoolin
 		
 public:	
 	APAPlayerBullet(const FObjectInitializer& ObjectInitializer);
+	void RemoveBullet();
+	void RemoveBulletOutOfMap();
 
 	virtual void Tick(float DeltaTime) override;
 	virtual void SpawnFrom(AActor* InTarget) override;
 
-	void Fire();
-
-	virtual void NotifyActorBeginOverlap(class AActor* Other) override;
-	
+	void Fire();	
 public:
 	virtual void ConstructFunction() override;
 	virtual void DestructFunction() override;
+	void HitEnemy(AActor* OtherActor);
+
 protected:	
 	virtual void OnBulletOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 protected:

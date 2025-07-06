@@ -4,6 +4,7 @@
 #include "Weapons/PAPlayerBullet.h"
 
 #include "Character/PAEnemyCharacter.h"
+#include "Components/PAPlayerScoreComponent.h"
 #include "Components/PAWeaponSystemComponent.h"
 #include "Core/PAObjectPoolSubsystem.h"
 #include "Helpers/PACharacterHelper.h"
@@ -13,6 +14,30 @@ APAPlayerBullet::APAPlayerBullet(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
+}
+
+void APAPlayerBullet::RemoveBullet()
+{
+	UPAObjectPoolSubsystem* ObjSubsystem = PA::Core::GetObjectPoolSubsystem(GetWorld());
+	if(IsValid(ObjSubsystem))
+	{
+		TWeakObjectPtr<UPAPool> Pool = ObjSubsystem->GetPool();
+		if(Pool.IsValid())
+		{
+			Pool.Get()->ReturnObject(this->GetPoolingHandle());	
+		}
+	}
+}
+
+void APAPlayerBullet::RemoveBulletOutOfMap()
+{
+	const FVector2D& BulletLocation2D = PA::CharacterHelper::GetActorLocation2D(this);
+	const FVector2D& OwnerLocation2D = PA::CharacterHelper::GetActorLocation2D(OwnerCharacter.Get());
+
+	if (FVector2D::Distance(BulletLocation2D, OwnerLocation2D) >= MaxDistance)
+	{
+		RemoveBullet();				
+	}
 }
 
 void APAPlayerBullet::Tick(float DeltaTime)
@@ -28,22 +53,7 @@ void APAPlayerBullet::Tick(float DeltaTime)
 			const FVector NewWorldPosition(CurrentLocation.X, CurrentLocation.Y, OwnerCharacter.Get()->GetActorLocation().Z);
 			SetActorLocation(NewWorldPosition);
 		
-			FVector2D BulletLocation2D = PA::CharacterHelper::GetActorLocation2D(this);
-			FVector2D OwnerLocation2D = PA::CharacterHelper::GetActorLocation2D(OwnerCharacter.Get());
-
-			if (FVector2D::Distance(BulletLocation2D, OwnerLocation2D) > MaxDistance)
-			{
-				UPAObjectPoolSubsystem* ObjSubsystem = PA::Core::GetObjectPoolSubsystem(GetWorld());
-				if(IsValid(ObjSubsystem))
-				{
-					TWeakObjectPtr<UPAPool> Pool = ObjSubsystem->GetPool();
-					if(Pool.IsValid())
-					{
-						Pool.Get()->ReturnObject(this->GetPoolingHandle());	
-					}
-				}
-				
-			}
+			RemoveBulletOutOfMap();
 		}
 	}
 }
@@ -75,16 +85,7 @@ void APAPlayerBullet::Fire()
 	SetActorTickEnabled(true);
 }
 
-void APAPlayerBullet::NotifyActorBeginOverlap(class AActor* Other)
-{
-	Super::NotifyActorBeginOverlap(Other);
 
-	APAEnemyCharacter* Target = Cast<APAEnemyCharacter>(Other);
-	if(Target != nullptr)
-	{
-		
-	}
-}
 
 void APAPlayerBullet::ConstructFunction()
 {
@@ -99,16 +100,32 @@ void APAPlayerBullet::DestructFunction()
 	SetActorHiddenInGame(true);
 }
 
-void APAPlayerBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void APAPlayerBullet::HitEnemy(AActor* OtherActor)
 {
-	Super::OnBulletOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
-
 	if(IsValid(OtherActor))
 	{
 		auto Target = Cast<APAEnemyCharacter>(MakeWeakObjectPtr(OtherActor));
 		if(IsValid(Target))
 		{
+			if(OwnerCharacter.IsValid())
+			{
+				UPAPlayerScoreComponent* ScoreComponent = UPAPlayerScoreComponent::FindScoreComponent(OwnerCharacter.Get());
+				if(IsValid(ScoreComponent))
+				{
+					ScoreComponent->AddScore();	
+				}								
+			}
+			
 			Target->StartDead();
+			
+			RemoveBullet();
 		}
 	}
+}
+
+void APAPlayerBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Super::OnBulletOverlap(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	HitEnemy(OtherActor);
 }

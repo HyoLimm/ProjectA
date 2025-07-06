@@ -18,18 +18,14 @@ void APAPlayerController::BeginPlay()
 	Super::BeginPlay();
 	
 	GeneratedWidgetsPool.SetWorld(GetWorld());
-	
-	if (bIsAttachedMainWidget == false)
+
+	if (bIsAttachedMainWidget == false && MainWidgetClass)
 	{
-		if (MainWidgetClass)
+		UPAUserWidget* MainWidget = GeneratedWidgetsPool.GetOrCreateInstance(MainWidgetClass);
+		if (IsValid(MainWidget))
 		{
-			UPAUserWidget* MainWidget = GeneratedWidgetsPool.GetOrCreateInstance(MainWidgetClass);
-			// //UPAUserWidget* MainWidget = CreateWidget<UPAUserWidget>(this, MainWidgetClass.Get());
-			if (IsValid(MainWidget))
-			{
-				MainWidget->AddToViewport();
-				bIsAttachedMainWidget = true;
-			}
+			MainWidget->AddToViewport();
+			bIsAttachedMainWidget = true;
 		}
 	}
 }

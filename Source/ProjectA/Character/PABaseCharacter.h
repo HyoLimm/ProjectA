@@ -16,6 +16,7 @@ class PROJECTA_API APABaseCharacter : public ACharacter
 public:
 	APABaseCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	virtual void InitCharacter();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
