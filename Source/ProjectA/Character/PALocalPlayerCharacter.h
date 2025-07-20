@@ -30,7 +30,7 @@ protected:
 	
 	FTimerHandle BulletTimerHandle;
 
-	bool bIsAutoAttack = true;
+	bool bIsAutoAttack = false;
 
 private:
 	void OnFireBulletFromTimer();

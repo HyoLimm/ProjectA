@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2025 ProjectA All rights reserved.
 
 
 #include "PAEnemyCharacter.h"
@@ -62,12 +62,12 @@ void APAEnemyCharacter::DestructFunction()
 
 void APAEnemyCharacter::SpawnFrom(AActor* InTarget)
 {
-	if(bIsActive)
+	if (bIsActive)
 	{
 		return;
 	}
 
-	
+
 	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	if (PlayerPawn == nullptr)
 	{
@@ -76,15 +76,18 @@ void APAEnemyCharacter::SpawnFrom(AActor* InTarget)
 
 	const FVector& PlayerLocation = PlayerPawn->GetActorLocation();
 
-	// 네비게이션 시스템 사용해서 안전한 위치 찾기
-	UNavigationSystemV1* NavSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-	if (!NavSystem) return;
 
-	FNavLocation RandomLocation;
-	bool bFound = NavSystem->GetRandomReachablePointInRadius(PlayerLocation, 1000.f, RandomLocation);
+	// 2D 랜덤 방향 벡터
+	const float Angle = FMath::FRandRange(0.f, 2.f * PI);
+	const float Distance = FMath::FRandRange(0.f, 1000.f);
+
+	const float OffsetX = FMath::Cos(Angle) * Distance;
+	const float OffsetY = FMath::Sin(Angle) * Distance;
+
+	const FVector& RandomLocation = PlayerLocation + FVector(OffsetX, OffsetY, 0.f);
 
 	SetActorLocation(RandomLocation);
-	
+
 	bIsActive = true;
 }
 

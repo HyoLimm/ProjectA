@@ -37,21 +37,21 @@ void APAGameModeBase::BeginPlay()
 		return;
 	}
 
-	UWorld* World = GameInstance->GetWorld();
-	if(World)
-	{
-		TWeakObjectPtr<UPAObjectPoolSubsystem> ObjectPoolSubsystem = World->GetSubsystem<UPAObjectPoolSubsystem>();
-		if (ObjectPoolSubsystem.IsValid())
-		{
-			ObjectPoolSubsystem.Get()->CreatePool();
-			Pool = ObjectPoolSubsystem.Get()->GetPool();
-		}
-	}
+	// UWorld* World = GameInstance->GetWorld();
+	// if(World)
+	// {
+	// 	TWeakObjectPtr<UPAObjectPoolSubsystem> ObjectPoolSubsystem = World->GetSubsystem<UPAObjectPoolSubsystem>();
+	// 	if (ObjectPoolSubsystem.IsValid())
+	// 	{
+	// 		ObjectPoolSubsystem.Get()->CreatePool();
+	// 		Pool = ObjectPoolSubsystem.Get()->GetPool();
+	// 	}
+	// }
 
-	if(World)
-	{
-		World->GetTimerManager().SetTimer(EnemySpawnTimerHandle, this, &ThisClass::SpawnRandomEnemy,0.5f, true);
-	}
+	// if(World)
+	// {
+	// 	World->GetTimerManager().SetTimer(EnemySpawnTimerHandle, this, &ThisClass::SpawnRandomEnemy,0.2f, true);
+	// }
 	
 	
 	UPAUIManagerSubsystem* UIManagerSubSystem = GameInstance->GetSubsystem<UPAUIManagerSubsystem>();

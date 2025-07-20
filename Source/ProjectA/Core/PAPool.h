@@ -15,9 +15,7 @@ enum class EPoolingObjectType : uint8
 	// Actor
 	PLAYER_BULLET,
 	ENEMY,
-
-
-
+	
 	Max
 };
 

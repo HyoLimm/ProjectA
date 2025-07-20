@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2025 ProjectA All rights reserved.
 
 
 #include "PABaseCharacter.h"
@@ -26,7 +26,6 @@ void APABaseCharacter::BeginPlay()
 	Super::BeginPlay();	
 }
 
-// Called every frame
 void APABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
